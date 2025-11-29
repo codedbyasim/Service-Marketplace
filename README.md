@@ -22,7 +22,7 @@ The platform includes user authentication, separate profiles for clients and sel
 ### 1. Prerequisites
 Ensure you have the following installed:
 
-- Python 3.8+
+- Python 3.9+
 - pip (Python package installer)
 - Virtual environment tool (recommended: `venv` or `conda`)
 
@@ -134,7 +134,7 @@ Service-Marketplace/
 
 ## Technologies Used
 
-* **Backend:** Python 3.x, Django
+* **Backend:** Python 3.9.12, Django
 * **Database:** SQLite (default), PostgreSQL (production)
 * **Frontend:** HTML5, CSS3, JavaScript
 * **Styling:** Bootstrap 5

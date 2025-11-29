@@ -1,0 +1,137 @@
+/*
+ * Service-Marketplace/static/css/global.css
+ * ----------------------------------------
+ * Global styles for the entire Django project.
+ */
+
+/* 1. Root Variables & Base Styling */
+:root {
+    --primary-color: #007bff;      /* Bootstrap Blue for primary links/buttons */
+    --secondary-color: #6c757d;    /* Bootstrap Grey */
+    --success-color: #28a745;      /* Green for success/order */
+    --warning-color: #ffc107;      /* Yellow for pending/alerts */
+    --bg-light: #f8f9fa;           /* Light grey background */
+    --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-light);
+    color: #343a40; /* Dark text color */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Ensures the main content takes up remaining vertical space */
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline;
+}
+
+/* 2. Typography & Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #343a40;
+}
+
+/* 3. Navigation Bar (Navbar) */
+.navbar {
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+}
+
+.navbar .btn-primary {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    transition: background-color 0.3s ease;
+}
+
+.navbar .btn-primary:hover {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+}
+
+/* 4. Footer Styling */
+footer {
+    background-color: #343a40;
+    color: var(--bg-light);
+    padding: 30px 0;
+    margin-top: 50px;
+}
+
+footer a {
+    color: #adb5bd; /* Lighter grey links */
+}
+
+footer a:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* 5. Custom Service Card/Listing Styles */
+.service-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    height: 100%; /* Ensures all cards in a row have the same height */
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+.card-img-top {
+    height: 200px; /* Uniform image height for listings */
+    object-fit: cover;
+}
+
+.card-title {
+    min-height: 3rem; /* Reserve space for two lines of text */
+}
+
+/* 6. Forms and Inputs */
+.form-control, .form-select {
+    border-radius: 0.3rem;
+}
+
+.auth-form-card {
+    padding: 2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.1);
+}
+
+/* 7. Specific App Styles */
+
+/* Order Detail - Chat Box */
+.message-thread-box {
+    /* Style for the container holding chat messages */
+    background-color: #ffffff;
+    border-radius: 0; 
+}
+
+/* Message Bubble - Current User (Primary) */
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+/* Star Rating Styling (for later use, e.g., in Review Form) */
+.rating-stars {
+    color: var(--warning-color); /* Yellow stars */
+}
+
+/* Dashboard Specific Styles */
+.dashboard-heading {
+    border-left: 5px solid var(--primary-color);
+    padding-left: 15px;
+    margin-bottom: 25px;
+}

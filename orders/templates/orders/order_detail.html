@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order #{{ order.order_ref }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Chat + Order Messages -->
+    <div class="col-lg-7 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5>Private Message Thread</h5>
+            </div>
+
+            <div class="card-body p-3 message-thread-box" style="min-height: 400px; max-height: 400px; overflow-y: auto;">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% include 'chat/message_box.html' with message=message %}
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center mt-5">
+                        Start the conversation! Send a message to your counterpart.
+                    </p>
+                {% endif %}
+            </div>
+
+            <div class="card-footer bg-light">
+                <form method="post" action="{% url 'send_message' order_pk=order.pk %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        {{ message_form.text }}
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLIENT ACTION BLOCK (Review Section) -->
+    {% if not is_seller_view %}
+    <div class="col-lg-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body text-center">
+
+                {% if can_review %}
+                    <p class="fw-bold mb-2">Order Completed!</p>
+                    <a href="{% url 'create_review' order_pk=order.pk %}" class="btn btn-primary w-100">
+                        Leave Review Now
+                    </a>
+
+                {% elif existing_review %}
+                    <p class="fw-bold mb-2 text-success">✅ You have reviewed this order.</p>
+                    <h4 class="text-warning">{{ existing_review.rating }}/5 Stars</h4>
+                    <p class="small text-muted mb-0">
+                        Comment: {{ existing_review.comment|default:"No comment provided." }}
+                    </p>
+                    <a href="{% url 'service_detail' slug=order.service.slug %}"
+                       class="btn btn-link btn-sm mt-2">
+                        View all reviews for this service
+                    </a>
+
+                {% elif order.status == 'COMPLETED' %}
+                    <p class="text-muted">Order is complete, but review is pending.</p>
+
+                {% else %}
+                    <p class="text-muted">
+                        You can review this service once the order status is Completed.
+                    </p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatBox = document.querySelector('.message-thread-box');
+        if (chatBox) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    });
+</script>
+{% endblock %}

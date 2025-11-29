@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Server Error (500){% endblock %}
+
+{% block content %}
+<div class="container my-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-1 text-warning">500</h1>
+            <h2 class="mb-4">Internal Server Error</h2>
+            <p class="lead">
+                Something went wrong on our server. We are currently working to fix this issue.
+            </p>
+            <p class="text-muted">
+                Please try again in a few minutes. If the problem persists, contact support.
+            </p>
+            <p class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-warning btn-lg me-2 text-dark">Go to Homepage</a>
+            </p>
+             <img src="{% static 'images/500_illustration.png' %}" alt="500 Illustration" class="img-fluid mt-5" style="max-height: 250px;">
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

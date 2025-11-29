@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Edit Your Profile</h2>
+            {% include 'messages.html' %}
+            <div class="card p-4 shadow-sm">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="text-center mb-3">
+                        <!-- AVATAR LOGIC: Use safe check (.name) and apply styling -->
+                        {% if user.profile.profile_image.name %}
+                            <img src="{{ user.profile.profile_image.url }}" 
+                                 class="rounded-circle me-2"
+                                 style="width: 30px; height: 30px; object-fit: cover;"
+                                 alt="{{ user.username }}">
+                        {% else %}
+                            <img src="{% static 'img/default_avatar.png' %}"
+                                 class="rounded-circle me-2"
+                                 style="width: 30px; height: 30px; object-fit: cover;"
+                                 alt="Default Avatar">
+                        {% endif %}
+                        <!-- END AVATAR LOGIC -->
+                    </div>
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {% if field.field.widget.input_type == 'file' %}
+                                <div class="input-group">
+                                    {{ field }}
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+                            {% if field.help_text %}
+                                <small class="text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

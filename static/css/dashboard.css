@@ -1,0 +1,116 @@
+/*
+ * Service-Marketplace/static/css/dashboard.css
+ * --------------------------------------------
+ * Specific styles for client and seller dashboard views.
+ */
+
+/* 1. General Dashboard Layout */
+.dashboard-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.dashboard-header {
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+/* 2. Stat Cards */
+.stat-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card .card-body {
+    padding: 1.5rem;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+    opacity: 0.7;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    margin-bottom: 0;
+}
+
+/* Color Overrides for Stat Cards */
+.stat-card.bg-success {
+    background-color: var(--success-color) !important;
+    color: white;
+}
+.stat-card.bg-info {
+    background-color: #17a2b8 !important; /* Bootstrap blue-green */
+    color: white;
+}
+.stat-card.bg-warning {
+    background-color: var(--warning-color) !important;
+    color: #343a40;
+}
+.stat-card.bg-primary {
+    background-color: var(--primary-color) !important;
+    color: white;
+}
+
+/* 3. Quick Action Cards (Seller/Client Quick Links) */
+.quick-link-card {
+    border: none;
+    border-left: 5px solid var(--primary-color);
+    margin-bottom: 25px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.05);
+}
+
+.quick-link-card .btn {
+    border-radius: 0.3rem;
+    margin-right: 10px;
+}
+
+/* 4. Latest Lists (Orders/Services) */
+.latest-list .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.latest-list .list-group-item:first-child {
+    border-top: none;
+}
+
+/* 5. Profile/Sidebar Card (often used for stats summary) */
+.profile-card {
+    position: sticky;
+    top: 20px; /* Offset from the top of the viewport */
+    border: none;
+    box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.05);
+}
+
+.profile-img-container {
+    padding: 20px;
+    background-color: var(--bg-light);
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px #ccc;
+}

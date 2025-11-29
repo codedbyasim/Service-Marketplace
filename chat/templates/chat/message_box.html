@@ -1,0 +1,51 @@
+{% load static %}
+{% load humanize %} 
+<!-- Note: If you have humanize for time formatting, make sure it's in INSTALLED_APPS -->
+
+{% comment %} 
+    Renders a single message bubble. 
+    It checks if the sender is the current user (request.user) 
+    to align the bubble to the right (primary/blue color).
+{% endcomment %}
+
+{% if message.sender == request.user %}
+    <!-- Message sent by Current User (Right Align) -->
+    <div class="d-flex justify-content-end mb-3">
+        <div class="d-flex flex-column align-items-end">
+            <div class="p-3 bg-primary text-white rounded-start rounded-bottom shadow-sm" style="max-width: 75%;">
+                <p class="mb-0">{{ message.content|linebreaksbr }}</p>
+                <small class="text-white-50 mt-1 d-block text-end">
+                    {{ message.timestamp|timesince }} ago
+                </small>
+            </div>
+            <div class="mt-1 d-flex align-items-center">
+                <small class="text-muted me-2">{{ message.sender.username|capfirst }}</small>
+                <!-- Avatar for Sender (Logged-in User) -->
+                <img src="{% if message.sender.profile.profile_image.name %}{{ message.sender.profile.profile_image.url }}{% else %}{% static 'img/default_avatar.png' %}{% endif %}" 
+                     class="rounded-circle"
+                     style="width: 30px; height: 30px; object-fit: cover;"
+                     alt="{{ message.sender.username }}">
+            </div>
+        </div>
+    </div>
+{% else %}
+    <!-- Message sent by Other Party (Left Align) -->
+    <div class="d-flex justify-content-start mb-3">
+        <div class="d-flex flex-column align-items-start">
+            <div class="mt-1 d-flex align-items-center">
+                <!-- Avatar for Sender (Other Party) -->
+                <img src="{% if message.sender.profile.profile_image.name %}{{ message.sender.profile.profile_image.url }}{% else %}{% static 'img/default_avatar.png' %}{% endif %}" 
+                     class="rounded-circle"
+                     style="width: 30px; height: 30px; object-fit: cover;"
+                     alt="{{ message.sender.username }}">
+                <small class="text-muted ms-2">{{ message.sender.username|capfirst }}</small>
+            </div>
+            <div class="p-3 bg-light rounded-end rounded-bottom shadow-sm mt-1" style="max-width: 75%;">
+                <p class="mb-0">{{ message.content|linebreaksbr }}</p>
+                <small class="text-muted mt-1 d-block text-end">
+                    {{ message.timestamp|timesince }} ago
+                </small>
+            </div>
+        </div>
+    </div>
+{% endif %}

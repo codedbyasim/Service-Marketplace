@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirm Order{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Confirm Order: {{ service.title }}</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <img src="{{ service.cover_image.url }}" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;" alt="{{ service.title }}">
+                    </div>
+
+                    <h4 class="text-center mb-3">Total Due: <span class="text-success">${{ service.price|floatformat:2 }}</span></h4>
+                    
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><strong>Service Provider:</strong> {{ service.seller.username }}</li>
+                        <li class="list-group-item"><strong>Category:</strong> {{ service.category.name }}</li>
+                        <li class="list-group-item text-muted small">Note: This is the starting price. Any custom changes will be agreed upon during the chat phase.</li>
+                    </ul>
+                    
+                    <p class="alert alert-info text-center">
+                        Clicking the button below will officially place the order and open a private chat with the seller.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {% comment %} Since the form has no fields, we just submit the token {% endcomment %}
+                        <button type="submit" class="btn btn-success w-100 btn-lg">Place Order Now</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{% url 'service_detail' slug=service.slug %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

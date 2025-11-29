@@ -1,0 +1,133 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                class="bi bi-briefcase-fill me-1" viewBox="0 0 16 16">
+                <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zM14 4.5V5h-4.498l.582-1.5H11v-.5a.5.5 0 0 1 .5-.5h3zM5 5v-.5a.5.5 0 0 1 .5-.5h3.498l-.582 1.5H5zm10.5 1.638L8.71 8.653a1.5 1.5 0 0 1-1.42 0L.5 6.638V14.5A1.5 1.5 0 0 0 2 16h12a1.5 1.5 0 0 0 1.5-1.5V6.638z" />
+            </svg>
+            ServiceMarket
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- Left Side Links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Browse Services</a>
+                </li>
+
+                {% if user.is_authenticated and user.is_seller %}
+                <li class="nav-item">
+                    <a class="nav-link text-success fw-bold" href="{% url 'service_create' %}">
+                        Sell a Service
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Right Side Links -->
+            <ul class="navbar-nav">
+
+                {% if user.is_authenticated %}
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <!-- AVATAR LOGIC: Use safe check (.name) and apply styling -->
+                        {% if user.profile.profile_image.name %}
+                            <img src="{{ user.profile.profile_image.url }}" 
+                                 class="rounded-circle me-2"
+                                 style="width: 30px; height: 30px; object-fit: cover;"
+                                 alt="{{ user.username }}">
+                        {% else %}
+                            <img src="{% static 'img/default_avatar.png' %}"
+                                 class="rounded-circle me-2"
+                                 style="width: 30px; height: 30px; object-fit: cover;"
+                                 alt="Default Avatar">
+                        {% endif %}
+                        <!-- END AVATAR LOGIC -->
+
+                        {{ user.username|capfirst }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+
+                        {% if user.is_seller %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'my_services' %}">
+                                My Services
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'profile_update' %}">
+                                Edit Profile
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                    Logout ({{ request.user.username }})
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+
+                {% else %}
+
+                <!-- Login -->
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+
+                <!-- Register -->
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Register
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'client_register' %}">
+                                    As Client
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'seller_register' %}">
+                                    As Seller
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% include 'messages.html' %}

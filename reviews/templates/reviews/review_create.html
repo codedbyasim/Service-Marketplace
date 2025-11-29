@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Review Order #{{ order.order_ref }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Review Service: {{ service.title }}</h3>
+                </div>
+                <div class="card-body p-4">
+                    <p class="lead text-center">
+                        Please provide a rating (1-5) and a comment for the service you received through **Order #{{ order.order_ref }}**.
+                    </p>
+                    <hr>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.rating.id_for_label }}" class="form-label fw-bold">1. Your Rating (1 to 5):</label>
+                            {{ form.rating }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.comment.id_for_label }}" class="form-label fw-bold">2. Your Comment:</label>
+                            {{ form.comment }}
+                            <div class="form-text">Your feedback helps others choose the right seller.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 btn-lg">Submit Review</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{% url 'order_detail' pk=order.pk %}" class="btn btn-outline-secondary">Cancel Review</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

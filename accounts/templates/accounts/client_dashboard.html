@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Client Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <h1 class="mb-4">👋 Welcome back, {{ user.username|capfirst }}</h1>
+    <hr>
+
+    {% include 'messages.html' %}
+
+    <div class="row">
+
+        <!-- Profile + Stats -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <img src="{{ user.profile.profile_image.url }}"
+                     class="card-img-top p-3 rounded-circle mx-auto"
+                     style="width: 150px; height: 150px; object-fit: cover;"
+                     alt="Profile Image">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.profile.full_name|default:user.username }}</h5>
+                    <p class="text-muted">{{ user.email }}</p>
+                    <a href="{% url 'profile_update' %}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        💳 Total Spent:
+                        <span class="fw-bold">${{ total_spent|floatformat:2 }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        📋 Orders:
+                        <span class="fw-bold">{{ user.client_orders.count }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        ⭐ Services Reviewed:
+                        <span class="fw-bold">0</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Right Column -->
+        <div class="col-md-8 mb-4">
+
+            <!-- Quick Access -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    Quick Access
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'home' %}" class="btn btn-info me-2">🔍 Browse Services</a>
+                    <a href="{% url 'client_orders' %}" class="btn btn-outline-secondary">My Orders</a>
+                </div>
+            </div>
+
+            <!-- Latest Orders -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    Your Latest Order History
+                </div>
+                <div class="card-body">
+
+                    {% if latest_orders %}
+                        <ul class="list-group list-group-flush">
+                            {% for order in latest_orders %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="{% url 'order_detail' pk=order.pk %}">
+                                        {{ order.service.title|truncatechars:40 }}
+                                    </a>
+                                    <small class="text-muted d-block">Seller: {{ order.seller.username }}</small>
+                                </div>
+
+                                <span class="badge 
+                                    {% if order.status == 'COMPLETED' %}bg-success
+                                    {% elif order.status == 'IN_PROGRESS' %}bg-info
+                                    {% elif order.status == 'PENDING' %}bg-warning
+                                    {% elif order.status == 'CANCELLED' %}bg-danger
+                                    {% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">You have no recent orders.</p>
+                    {% endif %}
+
+                    <a href="{% url 'client_orders' %}" class="btn btn-link mt-3">View All Orders</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
